@@ -1171,7 +1171,7 @@ for filename in filenames:
 
 
 ## Making Choices
-Some basic conditionals
+The basics of using conditionals
 
 
 ```python
@@ -1301,6 +1301,611 @@ else:
 
 
 ## Functions
+Defining functions
+
+
+```python
+fahrenheit_val = 99
+celsius_val = ((fahrenheit_val - 32) * (5/9))
+
+print(celsius_val)
+```
+
+    37.22222222222222
+
+
+
+```python
+def explicit_fahr_to_celsius(temp):
+    # Assign converted value to variable
+    converted = ((temp - 32) * (5/9))
+    # Return value of new variable
+    return converted
+```
+
+
+```python
+def fahr_to_celsius(temp):
+    # More efficient function without creating a new variable
+    return ((temp -32) * (5/9))
+```
+
+
+```python
+fahr_to_celsius(32)
+```
+
+
+
+
+    0.0
+
+
+
+
+```python
+explicit_fahr_to_celsius(32)
+```
+
+
+
+
+    0.0
+
+
+
+
+```python
+print('Freezing point of water:', fahr_to_celsius(32), 'C')
+print('Boiling point of water:', fahr_to_celsius(212), 'C')
+```
+
+    Freezing point of water: 0.0 C
+    Boiling point of water: 100.0 C
+
+
+
+```python
+def celsius_to_kelvin(temp_c):
+    return temp_c + 273.15
+print('Freezing point of water in Kelvin:', celsius_to_kelvin(0.))
+```
+
+    Freezing point of water in Kelvin: 273.15
+
+
+
+```python
+def fahr_to_kelvin(temp_f):
+    temp_c = fahr_to_celsius(temp_f)
+    temp_k = celsius_to_kelvin(temp_c)
+    return temp_k
+
+print('Boiling point of water in Kelvin:', fahr_to_kelvin(212.0))
+```
+
+    Boiling point of water in Kelvin: 373.15
+
+
+
+```python
+temp_kelvin = fahr_to_kelvin(212)
+print('Temperature in Kelvin was:', temp_kelvin)
+```
+
+    Temperature in Kelvin was: 373.15
+
+
+
+```python
+def print_temperatures():
+    print('Temperature in Fahrenheit was:', temp_fahr)
+    print('Temperature in Kelvin was:', temp_kelvin)
+
+temp_fahr = 212.0
+temp_kelvin = fahr_to_kelvin(temp_fahr)
+
+print_temperatures()
+```
+
+    Temperature in Fahrenheit was: 212.0
+    Temperature in Kelvin was: 373.15
+
+### Part 2: Using Actual Data
+Putting it into practice, using the same inflammation data from previous exercises.
+
+
+```python
+import numpy
+import matplotlib.pyplot
+import glob
+```
+
+
+```python
+def visualize(filename):
+    data = numpy.loadtxt(fname = filename, delimiter = ',')
+    
+    fig = matplotlib.pyplot.figure(figsize= (10.0, 3.0))
+    
+    axes1 = fig.add_subplot(1, 3, 1)
+    axes2 = fig.add_subplot(1, 3, 2)
+    axes3 = fig.add_subplot(1, 3, 3)
+    
+    axes1.set_ylabel('Average')
+    axes1.plot(numpy.mean(data, axis=0))
+    
+    axes2.set_ylabel('Max')
+    axes2.plot(numpy.mean(data, axis=0))
+    
+    axes3.set_ylabel('Min')
+    axes3.plot(numpy.mean(data, axis=0))
+    
+    fig.tight_layout()
+    matplotlib.pyplot.show()
+```
+
+
+```python
+def detect_problems(filename):
+    data = numpy.loadtxt(fname = filename, delimiter = ',')
+    
+    if numpy.amax(data, axis = 0)[0] == 0 and numpy.amax(data, axis=0)[20] == 20:
+        print("Suspicious looking maxima!")
+    elif numpy.sum(numpy.amin(data, axis=0)) == 0:
+        print('Minima add up to zero!')
+    else:
+        print('Seems ok!')
+```
+
+
+```python
+filenames = sorted(glob.glob('inflammation*.csv'))
+
+for filename in filenames:
+    print(filename)
+    visualize(filename)
+    detect_problems(filename)
+```
+
+    inflammation-01.csv
+
+
+![output_3_1](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/bdc5a9c1-ff13-4353-bbd0-0b285a65280e)
+
+
+    Suspicious looking maxima!
+    inflammation-02.csv
+
+
+![output_3_3](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/e80960e1-695e-415a-bdb8-7a5625389f6d)
+
+
+    Suspicious looking maxima!
+    inflammation-03.csv
+
+
+![output_3_5](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/63726c3e-ccc1-4889-a514-811b6465d4a1)
+
+
+    Minima add up to zero!
+    inflammation-04.csv
+
+
+![output_3_7](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/24d61706-c791-4c54-9429-cbe084de79f0)
+
+
+    Suspicious looking maxima!
+    inflammation-05.csv
+
+
+![output_3_9](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/72adf0a7-a7b2-4f3f-9c17-e586bf4882de)
+
+
+    Suspicious looking maxima!
+    inflammation-06.csv
+
+
+![output_3_11](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/f15defa1-2b98-4526-bb18-0569a1755d2f)
+
+
+    Suspicious looking maxima!
+    inflammation-07.csv
+
+
+![output_3_13](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/3378e9ff-3dfd-437f-bf8c-2e3ee2585922)
+
+
+    Suspicious looking maxima!
+    inflammation-08.csv
+
+
+![output_3_15](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/f9013a39-85d5-48a6-a27a-312f1d719550)
+
+
+    Minima add up to zero!
+    inflammation-09.csv
+
+
+![output_3_17](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/b2a576f3-9bd5-4e58-b99d-a0c9157e9886)
+
+
+    Suspicious looking maxima!
+    inflammation-10.csv
+
+
+![output_3_19](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/5becd1db-f4ca-4a73-a1e2-18714935286d)
+
+
+    Suspicious looking maxima!
+    inflammation-11.csv
+
+
+![output_3_21](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/51c6b550-a2fb-42b9-9b8d-8d7208eb0ba5)
+
+
+    Minima add up to zero!
+    inflammation-12.csv
+
+
+![output_3_23](https://github.com/rjpellegr/RJP023_Python_Portfolio/assets/134185456/20e67437-377a-4340-bec0-232f10245a83)
+
+
+    Suspicious looking maxima!
+
+
+
+```python
+def offset_mean(data, target_mean_value):
+    return (data - numpy.mean(data)) + target_mean_value
+```
+
+
+```python
+z = numpy.zeros((2,2))
+print(offset_mean(z, 3))
+```
+
+    [[3. 3.]
+     [3. 3.]]
+
+
+
+```python
+data = numpy.loadtxt(fname = 'inflammation-01.csv', delimiter = ',')
+
+print(offset_mean(data, 0))
+```
+
+    [[-6.14875 -6.14875 -5.14875 ... -3.14875 -6.14875 -6.14875]
+     [-6.14875 -5.14875 -4.14875 ... -5.14875 -6.14875 -5.14875]
+     [-6.14875 -5.14875 -5.14875 ... -4.14875 -5.14875 -5.14875]
+     ...
+     [-6.14875 -5.14875 -5.14875 ... -5.14875 -5.14875 -5.14875]
+     [-6.14875 -6.14875 -6.14875 ... -6.14875 -4.14875 -6.14875]
+     [-6.14875 -6.14875 -5.14875 ... -5.14875 -5.14875 -6.14875]]
+
+
+
+```python
+print('Original min, mean, and max are:', numpy.amin(data), numpy.mean(data), numpy.amax(data))
+offset_data = offset_mean(data, 0)
+print('Min, mean and max of offset data are:',
+    numpy.amin(offset_data),
+    numpy.mean(offset_data),
+    numpy.amax(offset_data))
+```
+
+    Original min, mean, and max are: 0.0 6.14875 20.0
+    Min, mean and max of offset data are: -6.14875 2.842170943040401e-16 13.85125
+
+
+
+```python
+print('std dev before and after:', numpy.std(data), numpy.std(offset_data))
+```
+
+    std dev before and after: 4.613833197118566 4.613833197118566
+
+
+
+```python
+print('Difference in standard deviation before and after:',
+      numpy.std(data) - numpy.std(offset_data))
+```
+
+    Difference in standard deviation before and after: 0.0
+
+
+
+```python
+# offset_mean(data, target_mean_value):
+# return a new array containing the original data with its mean offset to match the desired value
+# this data should be inputted as measurements in columns and samples in rows
+def offset_mean(data, target_mean_value):
+    return (data - numpy.mean(data)) + target_mean_value
+```
+
+
+```python
+def offset_mean(data, target_mean_value):
+    """Return a new array containing the original data
+    with its mean offset to match the desired value
+    
+    Examples
+    ------------
+    
+    >>>offset_mean([1,2,3], 0)
+    array([-1., 0., 1.])
+    """
+    return(data - numpy.mean(data)) + target_mean_value
+```
+
+
+```python
+help(offset_mean)
+```
+
+    Help on function offset_mean in module __main__:
+    
+    offset_mean(data, target_mean_value)
+        Return a new array containing the original data
+        with its mean offset to match the desired value
+        
+        Examples
+        ------------
+        
+        >>>offset_mean([1,2,3], 0)
+        array([-1., 0., 1.])
+    
+
+
+
+```python
+numpy.loadtxt('inflammation-01.csv', delimiter = ',')
+```
+
+
+
+
+    array([[0., 0., 1., ..., 3., 0., 0.],
+           [0., 1., 2., ..., 1., 0., 1.],
+           [0., 1., 1., ..., 2., 1., 1.],
+           ...,
+           [0., 1., 1., ..., 1., 1., 1.],
+           [0., 0., 0., ..., 0., 2., 0.],
+           [0., 0., 1., ..., 1., 1., 0.]])
+
+
+
+
+```python
+def offset_mean(data, target_mean_value = 0.0):
+    """Return a new array containing the original data
+    with its mean offset to match the desired value (0 by default).
+    
+    Examples
+    ------------
+    
+    >>>offset_mean([1,2,3])
+    array([-1., 0., 1.])
+    """
+    return(data - numpy.mean(data)) + target_mean_value
+```
+
+
+```python
+test_data = numpy.zeros((2,2))
+print(offset_mean(test_data, 3))
+```
+
+    [[3. 3.]
+     [3. 3.]]
+
+
+
+```python
+print(offset_mean(test_data))
+```
+
+    [[0. 0.]
+     [0. 0.]]
+
+
+
+```python
+def display(a=1, b=2, c=3):
+    print('a:', a, 'b:', b, 'c:', c)
+print('no parameters:')
+display()
+print('one parameter:')
+display(55)
+print('two paramters:')
+display(55,66)
+```
+
+    no parameters:
+    a: 1 b: 2 c: 3
+    one parameter:
+    a: 55 b: 2 c: 3
+    two paramters:
+    a: 55 b: 66 c: 3
+
+
+
+```python
+print('only setting the value of c')
+display(c = 77)
+```
+
+    only setting the value of c
+    a: 1 b: 2 c: 77
+
+
+
+```python
+help(numpy.loadtxt)
+```
+
+    Help on function loadtxt in module numpy:
+    
+    loadtxt(fname, dtype=<class 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None, unpack=False, ndmin=0, encoding='bytes', max_rows=None)
+        Load data from a text file.
+        
+        Each row in the text file must have the same number of values.
+        
+        Parameters
+        ----------
+        fname : file, str, or pathlib.Path
+            File, filename, or generator to read.  If the filename extension is
+            ``.gz`` or ``.bz2``, the file is first decompressed. Note that
+            generators should return byte strings for Python 3k.
+        dtype : data-type, optional
+            Data-type of the resulting array; default: float.  If this is a
+            structured data-type, the resulting array will be 1-dimensional, and
+            each row will be interpreted as an element of the array.  In this
+            case, the number of columns used must match the number of fields in
+            the data-type.
+        comments : str or sequence of str, optional
+            The characters or list of characters used to indicate the start of a
+            comment. None implies no comments. For backwards compatibility, byte
+            strings will be decoded as 'latin1'. The default is '#'.
+        delimiter : str, optional
+            The string used to separate values. For backwards compatibility, byte
+            strings will be decoded as 'latin1'. The default is whitespace.
+        converters : dict, optional
+            A dictionary mapping column number to a function that will parse the
+            column string into the desired value.  E.g., if column 0 is a date
+            string: ``converters = {0: datestr2num}``.  Converters can also be
+            used to provide a default value for missing data (but see also
+            `genfromtxt`): ``converters = {3: lambda s: float(s.strip() or 0)}``.
+            Default: None.
+        skiprows : int, optional
+            Skip the first `skiprows` lines, including comments; default: 0.
+        usecols : int or sequence, optional
+            Which columns to read, with 0 being the first. For example,
+            ``usecols = (1,4,5)`` will extract the 2nd, 5th and 6th columns.
+            The default, None, results in all columns being read.
+        
+            .. versionchanged:: 1.11.0
+                When a single column has to be read it is possible to use
+                an integer instead of a tuple. E.g ``usecols = 3`` reads the
+                fourth column the same way as ``usecols = (3,)`` would.
+        unpack : bool, optional
+            If True, the returned array is transposed, so that arguments may be
+            unpacked using ``x, y, z = loadtxt(...)``.  When used with a structured
+            data-type, arrays are returned for each field.  Default is False.
+        ndmin : int, optional
+            The returned array will have at least `ndmin` dimensions.
+            Otherwise mono-dimensional axes will be squeezed.
+            Legal values: 0 (default), 1 or 2.
+        
+            .. versionadded:: 1.6.0
+        encoding : str, optional
+            Encoding used to decode the inputfile. Does not apply to input streams.
+            The special value 'bytes' enables backward compatibility workarounds
+            that ensures you receive byte arrays as results if possible and passes
+            'latin1' encoded strings to converters. Override this value to receive
+            unicode arrays and pass strings as input to converters.  If set to None
+            the system default is used. The default value is 'bytes'.
+        
+            .. versionadded:: 1.14.0
+        max_rows : int, optional
+            Read `max_rows` lines of content after `skiprows` lines. The default
+            is to read all the lines.
+        
+            .. versionadded:: 1.16.0
+        
+        Returns
+        -------
+        out : ndarray
+            Data read from the text file.
+        
+        See Also
+        --------
+        load, fromstring, fromregex
+        genfromtxt : Load data with missing values handled as specified.
+        scipy.io.loadmat : reads MATLAB data files
+        
+        Notes
+        -----
+        This function aims to be a fast reader for simply formatted files.  The
+        `genfromtxt` function provides more sophisticated handling of, e.g.,
+        lines with missing values.
+        
+        .. versionadded:: 1.10.0
+        
+        The strings produced by the Python float.hex method can be used as
+        input for floats.
+        
+        Examples
+        --------
+        >>> from io import StringIO   # StringIO behaves like a file object
+        >>> c = StringIO(u"0 1\n2 3")
+        >>> np.loadtxt(c)
+        array([[0., 1.],
+               [2., 3.]])
+        
+        >>> d = StringIO(u"M 21 72\nF 35 58")
+        >>> np.loadtxt(d, dtype={'names': ('gender', 'age', 'weight'),
+        ...                      'formats': ('S1', 'i4', 'f4')})
+        array([(b'M', 21, 72.), (b'F', 35, 58.)],
+              dtype=[('gender', 'S1'), ('age', '<i4'), ('weight', '<f4')])
+        
+        >>> c = StringIO(u"1,0,2\n3,0,4")
+        >>> x, y = np.loadtxt(c, delimiter=',', usecols=(0, 2), unpack=True)
+        >>> x
+        array([1., 3.])
+        >>> y
+        array([2., 4.])
+    
+
+
+
+```python
+numpy.loadtxt('inflammation-01.csv', delimiter = ',')
+```
+
+
+
+
+    array([[0., 0., 1., ..., 3., 0., 0.],
+           [0., 1., 2., ..., 1., 0., 1.],
+           [0., 1., 1., ..., 2., 1., 1.],
+           ...,
+           [0., 1., 1., ..., 1., 1., 1.],
+           [0., 0., 0., ..., 0., 2., 0.],
+           [0., 0., 1., ..., 1., 1., 0.]])
+
+
+
+
+```python
+def s(p):
+    s = 0
+    for v in p:
+        a += v
+    m = a / len(p)
+    d = 0
+    for v in p:
+        d += (v - m) * (v - m)
+    return numpy.sqrt(d / len(p) - 1)
+
+# same as above, but readable
+def std_dev(sample):
+    sample_sum = 0
+    for value in sample:
+        sample_sum += value
+
+    sample_mean = sample_sum / len(sample)
+
+    sum_squared_devs = 0
+    for value in sample:
+        sum_squared_devs += (value - sample_mean) * (value - sample_mean)
+
+    return numpy.sqrt(sum_sqared_devs / len(sample) - 1)
+```
+
 
 ## Defensive Programming
 
