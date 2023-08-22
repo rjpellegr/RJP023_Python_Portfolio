@@ -4,7 +4,7 @@ A repo of code I learned as part of Louisiana Tech's computational biology (BISC
 
 ## Using Jupyter Notebooks
 
-A brief introduction to Jupyter's Python 3 notebooks and its capabilities.
+A brief introduction to Jupyter notebooks and its capabilities.
 
 ```python
 %matplotlib inline 
